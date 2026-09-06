@@ -173,4 +173,64 @@ export class Win {
     ctx.strokeStyle = "white";
     ctx.strokeRect(x, y, w, h);
   }
+
+
+  open() {
+    this.winel.style.display = "block";
+    this.winel.style.visibility = "visible";
+    this.isOpen = true;
+    this.isMinimized = false;
+
+    this.winman.registerWindow(this);
+    this.winman.centerWindow(this.winel);
+    this.winman.bringToFront(this.winel, this);
+
+    if (this.hasTaskbarItem && this.taskman) {
+      this.taskman.addWindow(this);
+      this.taskman.setActive(this);
+    }
+  }
+
+  close() {
+    this.winel.style.display = "none";
+    this.isOpen = false;
+    this.isMinimized = false;
+
+    this.winman.unregisterWindow(this);
+
+    if (this.hasTaskbarItem && this.taskman) {
+      this.taskman.removeWindow(this);
+    }
+  }
+
+  minimize() {
+    this.winel.style.display = "none";
+    this.isMinimized = true;
+
+    if (this.hasTaskbarItem && this.taskman) {
+      this.taskman.removeActive();
+    }
+  }
+
+  restore() {
+    this.winel.style.display = "block";
+    this.isMinimized = false;
+    this.winman.bringToFront(this.winel, this);
+
+    if (this.hasTaskbarItem && this.taskman) {
+      this.taskman.setActive(this);
+    }
+  }
+
+  toggle() {
+    if (!this.isOpen || this.isMinimized) {
+      this.open();
+    } else {
+      this.close();
+    }
+  }
+
+
+
+
 }

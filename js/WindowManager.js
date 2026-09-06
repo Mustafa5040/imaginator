@@ -1,7 +1,9 @@
+import { Win } from "./Win";
+
 export class WindowManager {
   constructor(container = document.body) {
     this.container = container;
-    this.zIndexCounter = 100;
+    this.zIndexCounter = 9999;
     this.windows = [];
     this.activeWindow = NaN
   }
@@ -9,7 +11,7 @@ export class WindowManager {
   createWindow({ title = "Window", width = 400, height = 400, content = null, id = null }, wndInstance) {
 
     const winel = document.createElement("div");
-    
+
     winel.className = "window";
     winel.id = id || `window-${Date.now()}`;
     winel.style.width = width + "px";
@@ -70,9 +72,9 @@ export class WindowManager {
     return winel;
   }
 
-  setActiveWindow(wndInstance){
-    if(wndInstance){
-        this.activeWindow = wndInstance
+  setActiveWindow(wndInstance) {
+    if (wndInstance) {
+      this.activeWindow = wndInstance
     }
 
   }
@@ -82,15 +84,17 @@ export class WindowManager {
     this.windows.push(wndObj);
     wndObj.winel.style.zIndex = this.zIndexCounter;
   }
-
- bringToFront(wndEl, wndInstance) {
-  this.zIndexCounter += 1
+  unregisterWindow(wndObj){
+    //todo
+  }
+  bringToFront(wndEl, wndInstance) {
+    this.zIndexCounter += 1
     wndEl.style.zIndex = this.zIndexCounter.toString();
 
     if (wndInstance) {
-        this.activeWindow = wndInstance;
+      this.activeWindow = wndInstance;
     }
-}
+  }
 
   getPageDimensions() {
     return {
@@ -115,7 +119,7 @@ export class WindowManager {
 
     wndEl.style.left = clampedX + "px";
     wndEl.style.top = clampedY + "px";
-    
+
   }
 
   centerWindow(wndEl) {
@@ -127,28 +131,28 @@ export class WindowManager {
     this.moveWindow(wndEl, x, y);
   }
   maximizeWindow(winEl, wndInstance) {
-  const pageHeight = this.getPageDimensions().height;
-  const pageWidth = this.getPageDimensions().width;
+    const pageHeight = this.getPageDimensions().height;
+    const pageWidth = this.getPageDimensions().width;
 
-  if (winEl.dataset.isMaximized === "true") {
-    winEl.style.left = winEl.dataset.prevLeft;
-    winEl.style.top = winEl.dataset.prevTop;
-    winEl.style.width = winEl.dataset.prevWidth;
-    winEl.style.height = winEl.dataset.prevHeight;
-    winEl.dataset.isMaximized = "false";
-  } else {
-    winEl.dataset.prevLeft = winEl.style.left;
-    winEl.dataset.prevTop = winEl.style.top;
-    winEl.dataset.prevWidth = winEl.style.width;
-    winEl.dataset.prevHeight = winEl.style.height;
+    if (winEl.dataset.isMaximized === "true") {
+      winEl.style.left = winEl.dataset.prevLeft;
+      winEl.style.top = winEl.dataset.prevTop;
+      winEl.style.width = winEl.dataset.prevWidth;
+      winEl.style.height = winEl.dataset.prevHeight;
+      winEl.dataset.isMaximized = "false";
+    } else {
+      winEl.dataset.prevLeft = winEl.style.left;
+      winEl.dataset.prevTop = winEl.style.top;
+      winEl.dataset.prevWidth = winEl.style.width;
+      winEl.dataset.prevHeight = winEl.style.height;
 
-    winEl.style.left = "0px";
-    winEl.style.top = "0px";
-    winEl.style.width = pageWidth + "px";
-    winEl.style.height = (pageHeight - 28) + "px";
-    winEl.dataset.isMaximized = "true";
+      winEl.style.left = "0px";
+      winEl.style.top = "0px";
+      winEl.style.width = pageWidth + "px";
+      winEl.style.height = (pageHeight - 28) + "px";
+      winEl.dataset.isMaximized = "true";
+    }
+
+    this.bringToFront(winEl, wndInstance);
   }
-
-  this.bringToFront(winEl, wndInstance);
-}
 }

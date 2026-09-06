@@ -1,43 +1,54 @@
 export class TaskbarManager {
-  constructor(taskbar_el, taskbar_apps_el, winman) {
+  constructor(taskbar_el, taskbar_apps_el, winman, startMenuManager) {
     this.taskbar_el = taskbar_el;
     this.taskbar_apps_el = taskbar_apps_el;
     this.winman = winman;
-    this.pin_app_container_el = taskbar_el.querySelector("#taskbar-pinned-apps")
+    this.startman = startMenuManager;
+    this.pin_app_container_el = taskbar_el.querySelector("#taskbar-pinned-apps");
     this.startbtnel = taskbar_el.querySelector("#startbtn");
-    this.startmenuel = document.getElementById("start-menu")
-    this.appButtons_el = taskbar_el.querySelector("#taskbar-apps")
-    this.isMenuOpen = false
+    this.appButtons_el = taskbar_el.querySelector("#taskbar-apps");
     this.appButtons = new Map();
     this.pinnedApps = new Map();
-    this.startbtnel.addEventListener("click", this.handleStartButtonClick.bind(this));
-    this.initClock();
+    this._initClock();
+    this._initStartButton()
   }
 
-  handleStartButtonClick(event){
-    if(this.isMenuOpen){
-      this.startmenuel.style.display = "none";
-      this.startbtnel.className = "default";
-      this.isMenuOpen = false
-    }else{
-      this.startmenuel.style.display = "block";
-      this.startbtnel.className = "";
-      this.isMenuOpen = true;
+  _initStartButton() {
+    if (!this.startbtnel || !this.startman) return;
+    this.startman.onToggle = (isOpen) => {
+      if (isOpen) {
+        this.makeButtonActive(this.startbtnel);
+      } else {
+        this.makeButtonPassive(this.startbtnel);
+      }
+    };
+
+    this.startbtnel.addEventListener("click", (e) => {
+      e.stopPropagation();
+      this.startman.toggle();
+    });
+  }
+
+  updateStartButtonState() {
+    if (this.startman && this.startman.isOpen) {
+      this.makeButtonActive(this.startbtnel);
+    } else {
+      this.makeButtonPassive(this.startbtnel);
     }
   }
   pinApp(wndInstance) {
     if (wndInstance.icon) {
-        const ic_bt = document.createElement("img");
-        ic_bt.className = "tb-pinned-item";
-        ic_bt.src = wndInstance.icon;
-        ic_bt.style.width = "24px";
-        ic_bt.style.height = "24px";
-        ic_bt.style.verticalAlign = "middle";
-        this.pinnedApps.set(wndInstance, ic_bt);
-        this.pin_app_container_el.append(ic_bt)
-        ic_bt.addEventListener("click", () => {
-          this.handlePinnedAppItemClick(wndInstance)
-        });
+      const ic_bt = document.createElement("img");
+      ic_bt.className = "tb-pinned-item";
+      ic_bt.src = wndInstance.icon;
+      ic_bt.style.width = "24px";
+      ic_bt.style.height = "24px";
+      ic_bt.style.verticalAlign = "middle";
+      this.pinnedApps.set(wndInstance, ic_bt);
+      this.pin_app_container_el.append(ic_bt)
+      ic_bt.addEventListener("click", () => {
+        this.handlePinnedAppItemClick(wndInstance)
+      });
     }
   }
 
@@ -119,23 +130,29 @@ export class TaskbarManager {
     btn.addEventListener("click", () => {
       this.handleTaskbarWindowsItemClick(wndInstance)
     });
-
   }
 
   setActive(wndInstance) {
     this.appButtons.forEach((btn, wnd) => {
       if (wnd === wndInstance) {
-        btn.classList.add("active");
-        btn.style.boxShadow = "inset 1px 1px #000, inset -1px -1px #fff, inset 2px 2px #808080";
-        btn.style.background = "#e0e0e0";
-        btn.style.fontWeight = "bold";
+        this.makeButtonActive(btn);
       } else {
-        btn.classList.remove("active");
-        btn.style.boxShadow = "";
-        btn.style.background = "";
-        btn.style.fontWeight = "normal";
+        this.makeButtonPassive(btn);
       }
     });
+  }
+
+  makeButtonActive(btnEl) {
+    btnEl.classList.add("active");
+    btnEl.style.boxShadow = "inset 1px 1px #000, inset -1px -1px #fff, inset 2px 2px #808080";
+    btnEl.style.background = "#e0e0e0";
+    btnEl.style.fontWeight = "bold";
+  }
+  makeButtonPassive(btnEl) {
+    btnEl.classList.remove("active");
+    btnEl.style.boxShadow = "";
+    btnEl.style.background = "";
+    btnEl.style.fontWeight = "normal";
   }
 
   removeActive() {
@@ -155,20 +172,24 @@ export class TaskbarManager {
     }
   }
 
-  initClock() {
-    const clockEl = this.taskbar_el.querySelector("#clock_tray");
-    if (!clockEl) return;
+  _initClock() {
+    const clockEl = this.taskbar_el ? this.taskbar_el.querySelector("#clock_tray") : document.getElementById("clock_tray");
+
+    if (!clockEl) {
+      console.error("clock_tray not found!");
+      return;
+    }
 
     const update = () => {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, "0");
       const minutes = String(now.getMinutes()).padStart(2, "0");
-      clockEl.innerText = `${hours}:${minutes}`;
+      clockEl.textContent = `${hours}:${minutes}`;
     };
 
     update();
     setInterval(update, 1000);
-}
+  }
 
 
 }

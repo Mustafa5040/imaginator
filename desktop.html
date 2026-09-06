@@ -6,67 +6,212 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="https://unpkg.com/98.css" />
   <link rel="icon" type="image/x-icon" href="./resources/start9x.png">
-  <!-- <link rel="stylesheet" href="https://unpkg.com/xp.css" /> -->
 </head>
 
-<body id="mainBody" style="background: #008080;
+<body id="desktop" style="background: #008080;
                              cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAAAyAAAAMgAY/rnrQAAAAd0SU1FB+kIHQ0VCF4q2RwAAAABb3JOVAHPoneaAAAAT0lEQVRIx+3UMQ6AMAwEwfz/04OEoKAkS0HhS32jyHKylhWjEkSCSBAJIkEkiASRIBLP6n3e70Ea4lncH+JVCsC3S/2HhxXv0H+oyWSylQPLo6JeS9zD/gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNS0wOC0yOVQxMzoyMTowNyswMDowMBU/c2cAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjUtMDgtMjlUMTM6MjE6MDcrMDA6MDBkYsvbAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI1LTA4LTI5VDEzOjIxOjA4KzAwOjAwxT+a7QAAAABJRU5ErkJggg=='),auto; 
                              margin: 0;
                              padding: 0; 
                              min-height: 100dvh; 
+                             z-index: 1;
                              user-select: none;">
-  <div id="start-menu" class="window" style="display: none; position: absolute; bottom: 30px; left: 2px; z-index: 10000; width: 180px;">
-  <div style="display: flex;">
-    <div style="background: navy; width: 24px; writing-mode: vertical-rl; transform: rotate(180deg); color: white; font-weight: bold; padding: 4px; font-size: 14px;">
-      Windows<b>98</b>
+  <div id="start-menu" class="window"
+    style="display: none; position: absolute; bottom: 30px; left: 2px; z-index: 10000; width: 190px; padding: 2px;">
+    <div style="display: flex;">
+      <div
+        style="background: linear-gradient(180deg, #000080 0%, #1084d0 100%); width: 24px; min-width: 24px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px;">
+        <span
+          style="writing-mode: vertical-rl; transform: rotate(180deg); color: white; font-weight: bold; font-size: 15px; letter-spacing: 1px;">
+          Windows<span style="font-weight: normal; font-size: 13px;">98</span>
+        </span>
+      </div>
+      <ul role="menu" class="can-hover" style="flex: 1; margin: 0; padding: 2px; list-style: none;">
+        <li role="menuitem" tabindex="0" aria-haspopup="true" id="sm-programs">
+          <span><u>P</u>rograms</span>
+          <ul role="menu" class="can-hover">
+            <li role="menuitem" tabindex="0" id="sm-imaginator" data-action="imaginator-button-action">
+              <img src="./resources/user_computer-1.png" class="sm-icon" />
+              <span>Imaginator</span>
+            </li>
+          </ul>
+        </li>
+        <li role="menuitem" tabindex="0" id="sm-info">
+          <img src="./resources/msg_information-0.png" class="sm-icon" />
+          <span><u>I</u>nfo</span>
+        </li>
+        <li role="menuitem" class="has-divider" tabindex="0" id="sm-shutdown" data-action="shutdown-button-action">
+          <img src="./resources/shutdown_cool.png" onerror="this.style.display='none'" class="sm-icon" />
+          <span>Sh<u>u</u>t Down...</span>
+        </li>
+      </ul>
     </div>
-    <ul role="menu" style="flex: 1; margin: 0; padding: 2px;">
-      <li role="menuitem" tabindex="0" id="sm-imaginator">Imaginator</li>
-      <li role="menuitem" tabindex="0" id="sm-info">Info</li>
-    </ul>
   </div>
-</div>
-  <header id="taskbar" style="background: #c0c0c0;
-                    border-top: 2px solid #fff;
-                    border-left: 2px solid #fff;
-                    border-right: 2px solid #808080;
-                    border-bottom: 2px solid #808080;
-                    width: 100%;
-                    z-index: 999;
-                    box-sizing: border-box;
-                    display: flex;
-                    position: absolute;
-                    bottom: 0;
-                    align-items: center;
-                    user-select: none;
-                    gap: 6px;
-                    padding: 2px 4px;">
 
-    <button id="startbtn" style="padding: 0; margin: 0; cursor: pointer;" class="default">
-      <img src="resources/start9x.png" style="width: 16px; height: 16px; pointer-events: none; user-select: none; vertical-align: middle;" />
+  <header id="taskbar"
+    style="background: #c0c0c0; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #808080; border-bottom: 2px solid #808080; width: 100%; z-index: 999; box-sizing: border-box; display: flex; position: absolute; bottom: 0; align-items: center; user-select: none; gap: 6px; padding: 2px 4px;">
+    <button id="startbtn" style="padding: 0; margin: 0; cursor: pointer;">
+      <img src="resources/start9x.png"
+        style="width: 16px; height: 16px; pointer-events: none; user-select: none; vertical-align: middle;" />
       <label style="font-size:small; vertical-align: middle; font-weight: bold;"> Start</label>
     </button>
     <div id="taskbar-pinned-apps" style="display: flex; gap: 4px; flex: none; overflow-x: auto; align-items: center;">
     </div>
-    <div id="taskbar-apps" style="display: flex; gap: 4px; flex: 1; overflow-x: auto; align-items: center;">
-    </div>
+    <div id="taskbar-apps" style="display: flex; gap: 4px; flex: 1; overflow-x: auto; align-items: center;"></div>
     <div id="tray" class="status-bar-field" style="margin: 0; padding: 2px 8px; flex: none;">
-  <span id="clock_tray">17.13</span>
-</div>
-</header>
-  
+      <span id="clock_tray"></span>
+    </div>
+  </header>
+
+  <div id="shutdown-mask" class="shutdown-mask" style="z-index: 0;"></div>
 
   <script type="module" src="./js/entry.js"></script>
 </body>
 <style>
   @import url('https://cdnfonts.com');
-* {
-  cursor: url('./resources/arrow.cur'), auto !important;
-}
 
-a, button, label, .window-header {
-  cursor: url('./resources/arrow.cur'), pointer !important;
-}
+  * {
+    cursor: url('./resources/arrow.cur'), auto !important;
+  }
+
+  a,
+  button,
+  label,
+  .window-header {
+    cursor: url('./resources/arrow.cur'), pointer !important;
+  }
+
+  ul[role="menu"] li[role="menuitem"] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 24px;
+    padding: 2px 6px;
+    position: relative;
+  }
+
+  .sm-icon {
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+
+  ul[role="menu"] li[aria-haspopup="true"]>ul[role="menu"] {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: -3px;
+    min-width: 140px;
+    z-index: 10001;
+  }
+
+  ul[role="menu"] li[aria-haspopup="true"]:hover>ul[role="menu"],
+  ul[role="menu"] li[aria-haspopup="true"]:focus-within>ul[role="menu"] {
+    display: block;
+  }
+
+  ul[role="menu"] li[aria-haspopup="true"]::after {
+    content: "▶";
+    margin-left: auto;
+    font-size: 8px;
+  }
+
+  #start-menu ul[role="menu"] {
+    background: #c0c0c0;
+    box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+    padding: 2px;
+    margin: 0;
+    list-style: none;
+  }
+
+  #start-menu li[role="menuitem"] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 26px;
+    padding: 2px 6px;
+    font-family: "Pixelated MS Sans Serif", Arial, sans-serif;
+    font-size: 11px;
+    color: #000;
+    cursor: default;
+    user-select: none;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  #start-menu li[role="menuitem"]:hover,
+  #start-menu li[role="menuitem"]:focus {
+    background-color: #000080 !important;
+    color: #ffffff !important;
+    outline: none;
+  }
+
+  #start-menu li[role="menuitem"]:hover>span,
+  #start-menu li[role="menuitem"]:hover::after {
+    color: #ffffff !important;
+  }
+
+  #start-menu li[role="menuitem"].has-divider {
+    margin-top: 4px;
+    border-top: 1px solid #808080;
+    box-shadow: 0 -1px 0 #fff;
+    /* İçe göçük 3D efekt */
+    padding-top: 4px;
+  }
+
+  #start-menu li[aria-haspopup="true"]>ul[role="menu"] {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: -3px;
+    min-width: 140px;
+    z-index: 10001;
+  }
+
+  #start-menu li[aria-haspopup="true"]:hover>ul[role="menu"] {
+    display: block;
+  }
+
+  #start-menu li[aria-haspopup="true"]::after {
+    content: "▶";
+    margin-left: auto;
+    font-size: 8px;
+    color: #000;
+    padding-left: 8px;
+  }
+
+  #shutdown-mask,
+  .shutdown-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    pointer-events: none;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 0.8s ease;
+
+    background-image:
+      linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
+      linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000);
+    background-size: 2px 2px;
+    background-position: 0 0, 1px 1px;
+  }
+
+  #shutdown-mask.active,
+  .shutdown-mask.active {
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: all;
+  }
+
+  .win95-desaturate {
+    filter: grayscale(100%) brightness(50%);
+    transition: filter 0.8s ease;
+    z-index: 0;
+  }
 </style>
 
 </html>

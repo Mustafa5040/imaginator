@@ -6,7 +6,7 @@ export class ImaginatorWindow extends Win {
     constructor(winman, taskman) {
         const contentHtml = `
   <menu role="tablist">
-    <button aria-selected="true" aria-controls="about">About</button>
+    <button aria-selected="true" aria-controls="about">Projects</button>
     <button aria-controls="links">links</button>
     <button aria-controls="infoAboutMe">Useless Information About</button>
   </menu>
@@ -19,23 +19,23 @@ export class ImaginatorWindow extends Win {
   <article role="tabpanel" hidden id="links">
     <p>Below are the various links to my profile on various platforms.</p>
     <fieldset>
-      <legend>Platform</legend>
-      <div class="field-row">
-        <input id="radio1" type="radio" name="fieldset-example2" value="https://github.com/Mustafa5040" checked>
-        <label for="radio1">Github</label>
-      </div>
-      <div class="field-row">
-        <input id="radio2" type="radio" name="fieldset-example2" value="https://discord.com/users/ID">
-        <label for="radio2">Discord</label>
-      </div>
-      <div class="field-row">
-        <input id="radio3" type="radio" name="fieldset-example2" value="https://technopat.net">
-        <label for="radio3">Technopat</label>
-      </div>
-      <div class="field-row">
-        <input id="radio4" type="radio" name="fieldset-example2" value="https://x.com">
-        <label for="radio4">X</label>
-      </div>
+        <legend>Platform</legend>
+        <div class="field-row">
+            <input id="radio1" type="radio" name="fieldset-example2" value="https://github.com/Mustafa5040" checked>
+            <label for="radio1">Github</label>
+          </div>
+          <div class="field-row">
+            <input id="radio2" type="radio" name="fieldset-example2" value="https://discord.com/users/ID">
+            <label for="radio2">Discord</label>
+          </div>
+          <div class="field-row">
+            <input id="radio3" type="radio" name="fieldset-example2"  value="https://technopat.net">
+            <label for="radio3">Technopat</label>
+          </div>
+          <div class="field-row">
+            <input id="radio4" type="radio" name="fieldset-example2" value="https://x.com">
+            <label for="radio4">X</label>
+        </div>
     </fieldset>
     <section class="field-row" style="margin-top: 8px;">
       <button id="links_go_btn">Go</button>

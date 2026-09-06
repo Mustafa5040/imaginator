@@ -1,21 +1,99 @@
 export class TaskbarManager {
-  constructor(taskbar_el,taskbar_apps_el, winman) {
+  constructor(taskbar_el, taskbar_apps_el, winman) {
     this.taskbar_el = taskbar_el;
-    this.taskbar_apps_el = taskbar_apps_el
+    this.taskbar_apps_el = taskbar_apps_el;
     this.winman = winman;
+    this.pin_app_container_el = taskbar_el.querySelector("#taskbar-pinned-apps")
     this.startbtnel = taskbar_el.querySelector("#startbtn");
+    this.startmenuel = document.getElementById("start-menu")
+    this.appButtons_el = taskbar_el.querySelector("#taskbar-apps")
+    this.isMenuOpen = false
     this.appButtons = new Map();
     this.pinnedApps = new Map();
+    this.startbtnel.addEventListener("click", this.handleStartButtonClick.bind(this));
+    this.initClock();
   }
 
-  pinApp(){
-
+  handleStartButtonClick(event){
+    if(this.isMenuOpen){
+      this.startmenuel.style.display = "none";
+      this.startbtnel.className = "default";
+      this.isMenuOpen = false
+    }else{
+      this.startmenuel.style.display = "block";
+      this.startbtnel.className = "";
+      this.isMenuOpen = true;
+    }
+  }
+  pinApp(wndInstance) {
+    if (wndInstance.icon) {
+        const ic_bt = document.createElement("img");
+        ic_bt.className = "tb-pinned-item";
+        ic_bt.src = wndInstance.icon;
+        ic_bt.style.width = "24px";
+        ic_bt.style.height = "24px";
+        ic_bt.style.verticalAlign = "middle";
+        this.pinnedApps.set(wndInstance, ic_bt);
+        this.pin_app_container_el.append(ic_bt)
+        ic_bt.addEventListener("click", () => {
+          this.handlePinnedAppItemClick(wndInstance)
+        });
+    }
   }
 
-  registerPinnedApp(pinEl, wndInstance){
-    
+  registerPinnedApp(pinEl, wndInstance) {
+    this.pinnedApps.set(wndInstance, pinEl);
+
+    pinEl.addEventListener("click", () => {
+      this.handlePinnedAppItemClick(wndInstance)
+    });
   }
 
+  handlePinnedAppItemClick(wndInstance) {
+    const displayStyle = wndInstance.winel.style.display;
+    const is_hidden = displayStyle === "none" ||
+      wndInstance.winel.style.visibility === "hidden" ||
+      displayStyle === "";
+
+    const is_topmost = this.winman.activeWindow === wndInstance;
+
+    if (is_hidden) {
+      wndInstance.winel.style.display = "block";
+      wndInstance.winel.style.visibility = "visible";
+      this.winman.bringToFront(wndInstance.winel, wndInstance);
+      const btn = this.appButtons.get(wndInstance)
+      if (!btn) {
+        this.addWindow(wndInstance)
+      }
+      this.setActive(wndInstance);
+    } else if (is_topmost) {
+      wndInstance.winel.style.display = "none";
+      this.removeActive();
+    } else {
+      this.winman.bringToFront(wndInstance.winel, wndInstance);
+      this.setActive(wndInstance);
+    }
+  }
+  handleTaskbarWindowsItemClick(wndInstance) {
+    const isHidden = wndInstance.winel.style.display === "none" || wndInstance.winel.style.visibility === "hidden";
+    const isTopWindow = this.winman.activeWindow === wndInstance;
+
+    if (isHidden) {
+      wndInstance.winel.style.display = "block";
+      wndInstance.winel.style.visibility = "visible";
+      this.winman.bringToFront(wndInstance.winel, wndInstance);
+      this.setActive(wndInstance);
+    } else if (isTopWindow) {
+      wndInstance.winel.style.display = "none";
+      this.removeActive();
+      this.winman.setActiveWindow(this.winman.windows.at(-1))
+      this.setActive(this.winman.windows.at(-1))
+    } else {
+      this.winman.bringToFront(wndInstance.winel, wndInstance);
+      this.winman.activeWindow = wndInstance
+      this.setActive(wndInstance);
+    }
+  }
   addWindow(wndInstance) {
     const btn = document.createElement("button");
     btn.className = "taskbar-item";
@@ -34,27 +112,14 @@ export class TaskbarManager {
       <span style="font-size: 11px; pointer-events: none;">${title}</span>
     `;
 
-    btn.addEventListener("click", () => {
-      const isHidden = wndInstance.winel.style.display === "none" || wndInstance.winel.style.visibility === "hidden";
-      const isTopWindow = this.winman.activeWindow === wndInstance;
-
-      if (isHidden) {
-        wndInstance.winel.style.display = "block";
-        wndInstance.winel.style.visibility = "visible";
-        this.winman.bringToFront(wndInstance.winel);
-        this.setActive(wndInstance);
-      } else if (isTopWindow) {
-        wndInstance.winel.style.display = "none";
-        this.removeActive();
-      } else {
-        this.winman.bringToFront(wndInstance.winel);
-        this.setActive(wndInstance);
-      }
-    });
-
     this.taskbar_apps_el.appendChild(btn);
     this.appButtons.set(wndInstance, btn);
     this.setActive(wndInstance);
+
+    btn.addEventListener("click", () => {
+      this.handleTaskbarWindowsItemClick(wndInstance)
+    });
+
   }
 
   setActive(wndInstance) {
@@ -89,4 +154,21 @@ export class TaskbarManager {
       this.appButtons.delete(wndInstance);
     }
   }
+
+  initClock() {
+    const clockEl = this.taskbar_el.querySelector("#clock_tray");
+    if (!clockEl) return;
+
+    const update = () => {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      clockEl.innerText = `${hours}:${minutes}`;
+    };
+
+    update();
+    setInterval(update, 1000);
+}
+
+
 }

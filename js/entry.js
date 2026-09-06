@@ -1,22 +1,20 @@
 import { TaskbarManager } from './TaskbarManager.js';
 import { WindowManager } from './WindowManager.js';
 import { Win } from './Win.js';
+import { ImaginatorWindow } from './windows/imaginator_window.js';
 
-window.mainWorker = function() {
+let taskbar_manager = null;
+
+window.mainWorker = function () {
   const winman = new WindowManager(document.body);
   const taskbar = document.getElementById("taskbar");
-  const taskbar_apps_el = document.getElementById("taskbar-apps")
-  
-  let taskbar_manager = null;
+  const taskbar_apps_el = document.getElementById("taskbar-apps");
+
   if (taskbar && typeof TaskbarManager !== "undefined") {
     taskbar_manager = new TaskbarManager(taskbar, taskbar_apps_el, winman);
   }
 
-  new Win({
-    winel: document.getElementById("imaginator_window"),
-    winman: winman,
-    taskman: taskbar_manager
-  });
+  const imaginator_window = new ImaginatorWindow(winman, taskbar_manager);
 
   new Win({
     title: "testWindow",
@@ -35,25 +33,25 @@ window.mainWorker = function() {
   });
 };
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   window.mainWorker();
 });
 
 document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener('click', event => {
+  const isClickInsideStartBtn = event.target.closest('#startbtn');
+  const isClickInsideStartMenu = event.target.closest('#start-menu');
 
-const linksBtn = document.getElementById('links_go_btn');
-
-const goBtn = document.getElementById('links_go_btn');
-const imaginator_btn = document.getElementById("imaginator_btn")
-
-if (goBtn) {
-  goBtn.addEventListener('click', () => {
-    const selected = document.querySelector('input[name="fieldset-example2"]:checked');
-
-    if (selected && selected.value && selected.value.startsWith('http')) {
-      window.open(selected.value, '_blank', 'noopener,noreferrer');
-    } else {
-      alert('Lütfen geçerli bir bağlantıya sahip platform seçin!');
+  if (!isClickInsideStartBtn && !isClickInsideStartMenu) {
+    const startmenu = document.getElementById("start-menu");
+    if (startmenu) {
+      startmenu.style.display = "none";
+      // Eğer visibility kullanıyorsanız:
+      startmenu.style.visibility = "hidden";
+      
+      if (typeof taskbar_manager !== "undefined" && taskbar_manager) {
+        taskbar_manager.isMenuOpen = false;
+      }
     }
-  });
-}
+  }
+});

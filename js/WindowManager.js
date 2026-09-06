@@ -6,8 +6,10 @@ export class WindowManager {
     this.activeWindow = NaN
   }
 
-  createWindow({ title = "Window", width = 400, height = 400, content = null, id = null }) {
+  createWindow({ title = "Window", width = 400, height = 400, content = null, id = null }, wndInstance) {
+
     const winel = document.createElement("div");
+    
     winel.className = "window";
     winel.id = id || `window-${Date.now()}`;
     winel.style.width = width + "px";
@@ -56,18 +58,33 @@ export class WindowManager {
         winbody.appendChild(content);
       }
     }
-    winel.appendChild(winbody);
 
+    winel.appendChild(winbody);
     this.container.appendChild(winel);
+
+    this.windows.push(wndInstance);
+    this.zIndexCounter += 1;
+    winel.style.zIndex = this.zIndexCounter.toString()
+    this.activeWindow = wndInstance;
+
     return winel;
   }
 
+  setActiveWindow(wndInstance){
+    if(wndInstance){
+        this.activeWindow = wndInstance
+    }
+
+  }
   registerWindow(wndObj) {
+    this.zIndexCounter += 1;
+    this.activeWindow = wndObj;
     this.windows.push(wndObj);
+    wndObj.winel.style.zIndex = this.zIndexCounter;
   }
 
- bringToFront(wndEl, wndInstance = null) {
-    this.zIndexCounter += 1;
+ bringToFront(wndEl, wndInstance) {
+  this.zIndexCounter += 1
     wndEl.style.zIndex = this.zIndexCounter.toString();
 
     if (wndInstance) {
@@ -98,6 +115,7 @@ export class WindowManager {
 
     wndEl.style.left = clampedX + "px";
     wndEl.style.top = clampedY + "px";
+    
   }
 
   centerWindow(wndEl) {
@@ -108,7 +126,7 @@ export class WindowManager {
     const y = Math.max(0, (parent.height - winRect.height) / 2);
     this.moveWindow(wndEl, x, y);
   }
-  maximizeWindow(winEl) {
+  maximizeWindow(winEl, wndInstance) {
   const pageHeight = this.getPageDimensions().height;
   const pageWidth = this.getPageDimensions().width;
 
@@ -131,6 +149,6 @@ export class WindowManager {
     winEl.dataset.isMaximized = "true";
   }
 
-  this.bringToFront(winEl);
+  this.bringToFront(winEl, wndInstance);
 }
 }

@@ -50,7 +50,6 @@ export class Win {
     this.winman.registerWindow(this);
     this.winman.centerWindow(this.winel);
     this.winman.bringToFront(this.winel, this);
-
     window.addEventListener("resize", () => {
       this.moveCanvas.width = window.innerWidth;
       this.moveCanvas.height = window.innerHeight;
@@ -85,7 +84,7 @@ export class Win {
 
     if(this.maxBtn){
       this.maxBtn.addEventListener("click",() => {
-        this.winman.maximizeWindow(this.winel);
+        this.winman.maximizeWindow(this.winel, this);
         if(this.taskman){
           this.taskman.setActive(this)
         }

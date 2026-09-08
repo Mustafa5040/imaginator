@@ -212,6 +212,85 @@
     transition: filter 0.8s ease;
     z-index: 0;
   }
+  .project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+  text-decoration: none;
+  color: #000;
+  border: 1px dotted transparent;
+}
+
+.project-list-item:hover {
+  background-color: #000080;
+  color: #fff !important;
+  border-color: #fff;
+}
+
+.project-list-item:hover * {
+  color: #fff !important;
+}
+
+.project-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.project-title {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.project-desc {
+  font-size: 11px;
+  color: #444;
+  white-space: normal;
+  line-height: 1.2;
+}
+.sunken-panel::-webkit-scrollbar {
+  width: 16px;
+  background: #dfdfdf;
+}
+
+.sunken-panel::-webkit-scrollbar-track {
+  background: #dfdfdf;
+  box-shadow: inset 1px 1px #808080, inset -1px -1px #fff;
+}
+
+.sunken-panel::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  box-shadow: inset 1px 1px #fff, inset -1px -1px #000, inset 2px 2px #dfdfdf, inset -2px -2px #808080;
+}
+
+.sunken-panel::-webkit-scrollbar-button {
+  background: #c0c0c0;
+  height: 16px;
+  box-shadow: inset 1px 1px #fff, inset -1px -1px #000, inset 2px 2px #dfdfdf, inset -2px -2px #808080;
+}
+
+.sunken-panel {
+  scrollbar-width: auto;
+  scrollbar-color: #c0c0c0 #dfdfdf;
+}
+article[role="tabpanel"][hidden] {
+  display: none !important;
+}
 </style>
 
 </html>

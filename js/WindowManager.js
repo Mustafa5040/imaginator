@@ -1,4 +1,4 @@
-import { Win } from "./Win";
+import { Win } from "./Win.js";
 
 export class WindowManager {
   constructor(container = document.body) {

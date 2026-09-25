@@ -1,4 +1,5 @@
 # Imaginator
+<img width="1900" height="1018" alt="image" src="https://github.com/user-attachments/assets/d0d94f45-d487-44da-8eea-c589cf31e99f" />
 
 imaginator.vercel.app
 

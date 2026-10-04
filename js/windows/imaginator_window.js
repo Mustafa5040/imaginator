@@ -2,24 +2,66 @@ import { Win } from "../Win.js";
 
 export class ImaginatorWindow extends Win {
   constructor(winman, taskman) {
-    const projects = [
+   const projects = [
       {
         title: "Data Structures in C",
-        desc: "Fundamental data structures in CS implemented in C.",
+        desc: "Fundamental data structures in Computer Science implemented in C.",
         icon: "https://win98icons.alexmeub.com/icons/png/cardfile-1.png",
         link: "https://github.com/Mustafa5040/data_structers"
       },
       {
-        title: "TABU game",
-        desc: "Tabu game written in .NET MAUI and C#. Supports Windows and Android.",
-        icon: "https://win98icons.alexmeub.com/icons/png/wm-5.png",
+        title: "FluentShell",
+        desc: "Custom shell and terminal interface built with C# and modern styling.",
+        icon: "https://win98icons.alexmeub.com/icons/png/console_prompt-0.png",
+        link: "https://github.com/Mustafa5040/FluentShell"
+      },
+      {
+        title: "TABU Game",
+        desc: "Cross-platform Tabu game built with .NET MAUI and C# supporting Windows and Android.",
+        icon: "https://win98icons.alexmeub.com/icons/png/joystick-0.png",
         link: "https://github.com/Mustafa5040/A-Tabu-Game-Written-in-.NET-MAUI"
       },
       {
-        title: "Pathfinding algorithm",
-        desc: "A* algorithm with hybrid features, implemented in Python.",
-        icon: "https://win98icons.alexmeub.com/icons/png/desktop_old-0.png",
+        title: "Pathfinding Algorithm",
+        desc: "Hybrid A* pathfinding algorithm implementation in Python.",
+        icon: "https://win98icons.alexmeub.com/icons/png/world-0.png",
         link: "https://github.com/Mustafa5040/autonomous"
+      },
+      {
+        title: "BadAppleLua",
+        desc: "Rendering the Bad Apple animation using Lua scripting and Python pipelines.",
+        icon: "https://win98icons.alexmeub.com/icons/png/media_player-1.png",
+        link: "https://github.com/Mustafa5040/BadAppleLua"
+      },
+      {
+        title: "WinPDF",
+        desc: "Lightweight Windows PDF viewer and management utility developed in C#.",
+        icon: "https://win98icons.alexmeub.com/icons/png/write_wordpad-1.png",
+        link: "https://github.com/Mustafa5040/WinPDF"
+      },
+      {
+        title: "Mehcan-EKilit",
+        desc: "Electronic lock control and hardware-software communication project written in C#.",
+        icon: "https://win98icons.alexmeub.com/icons/png/key_padlock-0.png",
+        link: "https://github.com/Mustafa5040/Mehcan-EKilit"
+      },
+      {
+        title: "PySnake Game",
+        desc: "Classic Snake game developed in Python using Pygame and Pygame-menu.",
+        icon: "https://win98icons.alexmeub.com/icons/png/game_freecell-2.png",
+        link: "https://github.com/Mustafa5040/pysnake-game"
+      },
+      {
+        title: "Robotların Dili Yapay Zeka (TÜBİTAK)",
+        desc: "AI and robotics education repository developed in Java.",
+        icon: "https://win98icons.alexmeub.com/icons/png/gears_tweakui-0.png",
+        link: "https://github.com/Mustafa5040/RobotlarinDiliYapayZekaTBTK"
+      },
+      {
+        title: "Sosyal Forum",
+        desc: "Responsive web forum and discussion platform template.",
+        icon: "https://win98icons.alexmeub.com/icons/png/msie2-2.png",
+        link: "https://github.com/Mustafa5040/sosyal_forum"
       }
     ];
 
